@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM adoptopenjdk/maven-openjdk11-openj9:latest as mvnbuild-openj9
+FROM pravindsilva/11-jdk-openj9:latest as mvnbuild-openj9
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git vim \
@@ -34,20 +34,21 @@ RUN jlink --strip-debug --compress 2 --no-header-files --no-man-pages --module-p
 
 #####################################################################
 
-FROM dinogun/alpine:3.10-glibc
-
 ARG KRUIZE_VERSION
 
 WORKDIR /opt/app
 
-RUN adduser -u 1001 -S -G root -s /usr/sbin/nologin kruize \
+RUN adduser -u 1001 --system --group  --shell /usr/sbin/nologin kruize \
     && chown -R 1001:0 /opt/app \
     && chmod -R g+rw /opt/app
 
 USER 1001
 
-COPY --chown=1001:0 --from=mvnbuild-openj9 /opt/app/jre /opt/app/jre
-COPY --chown=1001:0 --from=mvnbuild-openj9 /opt/app/target/kruize-monitoring-0.0.1-NA-jar-with-dependencies.jar /opt/app/kruize-monitoring-with-dependencies.jar
+#COPY --chown=1001:0  /opt/app/jre /opt/app/jre
+#COPY --chown=1001:0  /opt/app/target/kruize-monitoring-0.0.1-NA-jar-with-dependencies.jar /opt/app/kruize-monitoring-with-dependencies.jar
+
+RUN chown -R 1001:0 /opt/app/jre
+RUN cp /opt/app/target/kruize-monitoring-0.0.1-NA-jar-with-dependencies.jar /opt/app/kruize-monitoring-with-dependencies.jar
 
 ENV JAVA_HOME=/opt/app/jre \
     PATH="/opt/app/jre/bin:$PATH"
