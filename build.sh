@@ -69,7 +69,7 @@ fi
 # Build the docker image with the given version string
 if [ $(arch) == "x86_64" ]; then
         docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} -t ${KRUIZE_DOCKER_IMAGE}-amd64 --build-arg OPENJ9V11_IMAGE=adoptopenjdk/maven-openjdk11-openj9:latest OS_IMAGE=dinogun/alpine:3.10-glibc .
-elif [ $(arch) == "ppc64le" ]
+elif [ $(arch) == "ppc64le" ]; then
         docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} -t ${KRUIZE_DOCKER_IMAGE}-ppc64le --build-arg OPENJ9V11_IMAGE=ppc64le/adoptopenjdk:11-jdk-openj9 OS_IMAGE=ppc64le/ubuntu:focal .
 fi
 
