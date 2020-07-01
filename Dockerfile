@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-ARG OPENJ9V11_IMAGE
-ARG OS_IMAGE
+ARG OPENJ9V11_IMAGE="adoptopenjdk/maven-openjdk11-openj9:latest"
+ARG OS_IMAGE="dinogun/alpine:3.10-glibc"
 
 FROM ${OPENJ9V11_IMAGE} as mvnbuild-openj9
 
@@ -45,7 +45,9 @@ ARG KRUIZE_VERSION
 
 WORKDIR /opt/app
 
-RUN adduser -u 1001 -S -G root -s /usr/sbin/nologin kruize \
+ARG ADDUSER_OPTIONS="-u 1001 -S -G root -s /usr/sbin/nologin kruize"
+
+RUN adduser ${ADDUSER_OPTIONS} \
     && chown -R 1001:0 /opt/app \
     && chmod -R g+rw /opt/app
 

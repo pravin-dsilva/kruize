@@ -67,10 +67,10 @@ if [ -z "${DOCKER_TAG}" ]; then
 fi
 
 # Build the docker image with the given version string
-if [ $(arch) == "x86_64" ]; then
-        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=adoptopenjdk/maven-openjdk11-openj9:latest --build-arg OS_IMAGE=dinogun/alpine:3.10-glibc -t ${KRUIZE_DOCKER_IMAGE}-$(arch) .
-elif [ $(arch) == "ppc64le" ]; then
-        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=ppc64le/adoptopenjdk:11-jdk-openj9 --build-arg OS_IMAGE=ppc64le/ubuntu:focal --build-arg MAVEN_OPTS=-Xss2m  --build-arg MAVEN_INSTALL=maven -t ${KRUIZE_DOCKER_IMAGE}-$(arch) .
+if [ $(arch) == "ppc64le" ]; then
+        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=ppc64le/adoptopenjdk:11-jdk-openj9 --build-arg OS_IMAGE=ppc64le/ubuntu:focal --build-arg MAVEN_INSTALL=maven --build-arg ADDUSER_OPTIONS="adduser -u 1001 --system --group  --shell /usr/sbin/nologin kruize" -t ${KRUIZE_DOCKER_IMAGE} .
+else
+        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} -t ${KRUIZE_DOCKER_IMAGE} .
 fi
 
 check_err "Docker build of ${KRUIZE_DOCKER_IMAGE} failed."
