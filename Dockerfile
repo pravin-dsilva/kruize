@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-FROM adoptopenjdk/maven-openjdk11-openj9:latest as mvnbuild-openj9
+FROM ${OPENJ9V11_IMAGE} as mvnbuild-openj9
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git vim \
@@ -34,7 +34,7 @@ RUN jlink --strip-debug --compress 2 --no-header-files --no-man-pages --module-p
 
 #####################################################################
 
-FROM dinogun/alpine:3.10-glibc
+FROM ${OS_IMAGE}
 
 ARG KRUIZE_VERSION
 

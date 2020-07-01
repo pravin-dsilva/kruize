@@ -1,6 +1,10 @@
 services:
   - docker
 
+arch:
+  - amd64
+  - ppc64le
+
 language: bash
 
 script:
