@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+ARG OPENJ9V11_IMAGE
+
 FROM ${OPENJ9V11_IMAGE} as mvnbuild-openj9
 
 RUN apt-get update \
@@ -33,6 +35,7 @@ RUN mvn clean package
 RUN jlink --strip-debug --compress 2 --no-header-files --no-man-pages --module-path /opt/java/openjdk/jmods --add-modules java.base,java.compiler,java.desktop,java.logging,java.management,java.naming,java.security.jgss,java.sql,java.xml,jdk.compiler,jdk.httpserver,jdk.unsupported,jdk.crypto.ec --exclude-files=**java_**.properties,**J9TraceFormat**.dat,**OMRTraceFormat**.dat,**j9ddr**.dat,**public_suffix_list**.dat --output jre
 
 #####################################################################
+ARG OS_IMAGE
 
 FROM ${OS_IMAGE}
 

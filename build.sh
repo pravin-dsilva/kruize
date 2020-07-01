@@ -68,9 +68,9 @@ fi
 
 # Build the docker image with the given version string
 if [ $(arch) == "x86_64" ]; then
-        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=adoptopenjdk/maven-openjdk11-openj9:latest --build-arg OS_IMAGE=dinogun/alpine:3.10-glibc -t ${KRUIZE_DOCKER_IMAGE}-amd64 .
+        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=adoptopenjdk/maven-openjdk11-openj9:latest --build-arg OS_IMAGE=dinogun/alpine:3.10-glibc -t ${KRUIZE_DOCKER_IMAGE}-$(arch) .
 elif [ $(arch) == "ppc64le" ]; then
-        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=ppc64le/adoptopenjdk:11-jdk-openj9--build-arg OS_IMAGE=ppc64le/ubuntu:focal -t ${KRUIZE_DOCKER_IMAGE}-ppc64le .
+        docker build --pull --no-cache --build-arg KRUIZE_VERSION=${DOCKER_TAG} --build-arg OPENJ9V11_IMAGE=ppc64le/adoptopenjdk:11-jdk-openj9 --build-arg OS_IMAGE=ppc64le/ubuntu:focal -t ${KRUIZE_DOCKER_IMAGE}-$(arch) .
 fi
 
 check_err "Docker build of ${KRUIZE_DOCKER_IMAGE} failed."
